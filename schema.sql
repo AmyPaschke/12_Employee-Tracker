@@ -43,21 +43,23 @@ PRIMARY KEY(employee_id)
 
 
 -- id, firstname, lastname, title, department, salary, manager--
-SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id 
-FROM employee AS employee_alias
+SELECT id, first_name, last_name, manager_id 
+FROM employee
 JOIN employee_info ON employee_info.employee_id = employee.id
 JOIN employee_info ON employee_info.first_name = employee.first_name
 JOIN employee_info ON employee_info.last_name = employee.last_name
 JOIN employee_info ON employee_info.manager = employee.manager_id;
 
-SELECT role.title, role.salary
-FROM role AS role_alias
-INNER JOIN employee_info ei_alias1 ON role.title = employee_info.title
-INNER JOIN employee_info ei_alias2 ON role.salary = employee_info.salary;
+SELECT title, salary
+FROM role
+INNER JOIN employee_info ON role.title = employee_info.title
+INNER JOIN employee_info ON role.salary = employee_info.salary;
 
 SELECT department.name
-FROM department department_alias
-INNER JOIN employee_info ei_alias3 ON employee_info.department_name = department.name;
+FROM department
+INNER JOIN employee_info ON employee_info.department_name = department.name;
+
+
 
 
 
