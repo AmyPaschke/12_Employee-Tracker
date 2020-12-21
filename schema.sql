@@ -28,11 +28,37 @@ CREATE TABLE department (
   PRIMARY KEY(id)
 );
 
+CREATE TABLE employee_info (
+employee_id int,
+first_name varchar(30) NOT NULL,
+last_name varchar(30) NOT NULL,
+title varchar(30) NOT NULL,
+department_name varchar(30) NOT NULL,
+salary decimal NOT NULL,
+manager varchar(30),
+foreign key (employee_id) REFERENCES employee (id) ON DELETE CASCADE,
+PRIMARY KEY(employee_id)
+);
 
-INSERT INTO department (name) VALUES ("Sales"), ("Engineering"), ("Finance"), 
-("Legal"), ("Misc");
 
-INSERT INTO employee (first_name, last_name) VALUES ("Amy", "Paschke");
 
-SELECT * FROM employee;
+-- id, firstname, lastname, title, department, salary, manager--
+SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id 
+FROM employee AS employee_alias
+JOIN employee_info ON employee_info.employee_id = employee.id
+JOIN employee_info ON employee_info.first_name = employee.first_name
+JOIN employee_info ON employee_info.last_name = employee.last_name
+JOIN employee_info ON employee_info.manager = employee.manager_id;
+
+SELECT role.title, role.salary
+FROM role AS role_alias
+INNER JOIN employee_info ei_alias1 ON role.title = employee_info.title
+INNER JOIN employee_info ei_alias2 ON role.salary = employee_info.salary;
+
+SELECT department.name
+FROM department department_alias
+INNER JOIN employee_info ei_alias3 ON employee_info.department_name = department.name;
+
+
+
 
