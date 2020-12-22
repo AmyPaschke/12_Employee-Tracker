@@ -39,7 +39,7 @@ function runSearch() {
       ],
     })
     .then(function (answer) {
-      switch (answer.action) {
+      switch (answer.choice) {
         case "View all Employees":
           allEmployees();
           break;
@@ -59,16 +59,16 @@ function runSearch() {
     });
 }
 function allEmployees() {
-  let query = "SELECT * FROM employee";
-  connection.query(query, function (err, res) {
+  let query =
+    "SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id;";
+  return connection.query(query, function (err, res) {
     if (err) throw err;
-    for (let i = 0; i < res.length; i++) {
-      console.table([res[i]]);
-    }
+    console.table(res);
     runSearch();
   });
 }
 function allDepartments() {
+  //left joining departments table with both tables
   let query = "SELECT * FROM department";
   connection.query(query, function (err, res) {
     if (err) throw err;
@@ -79,6 +79,7 @@ function allDepartments() {
   });
 }
 function allRoles() {
+  //left joining roles table with employee table
   let query = "SELECT * FROM role";
   connection.query(query, function (err, res) {
     if (err) throw err;
@@ -88,7 +89,11 @@ function allRoles() {
     runSearch();
   });
 }
-function addEmployees() {
+async function addEmployees() {
+  const roles = await this.connection.query("SELECT id, title FROM role");
+  let finalRoles = roles.map((item) => {
+    return item.name;
+  });
   inquirer
     .prompt([
       {
@@ -105,15 +110,7 @@ function addEmployees() {
         name: "role",
         type: "list",
         message: "What is the employees role?",
-        choices: [
-          "Sales Manager",
-          "Lead Engineer",
-          "Software Engineer",
-          "Account Manager",
-          "Accountant",
-          "Lawyer",
-          "Intern",
-        ],
+        choices: finalRoles,
       },
     ])
     .then((answer) => {
@@ -123,6 +120,7 @@ function addEmployees() {
         {
           first_name: answer.firstName,
           last_name: answer.lastName,
+          role_id: id,
         },
         function (err) {
           if (err) throw err;

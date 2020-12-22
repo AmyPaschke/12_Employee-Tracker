@@ -2,15 +2,10 @@ DROP DATABASE IF EXISTS employee_tracker_db;
 CREATE DATABASE  employee_tracker_db;
 USE employee_tracker_db;
 
-CREATE TABLE employee (
+CREATE TABLE department (
   id int AUTO_INCREMENT,
-  first_name varchar(30) NOT NULL,
-  last_name varchar(30) NOT NULL,
-  role_id int,
-  manager_id int,
-  PRIMARY KEY(id),
-  FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE,
-  FOREIGN KEY (manager_id) REFERENCES employee (id) ON DELETE CASCADE
+  name varchar(30) NOT NULL,
+  PRIMARY KEY(id)
 );
 
 CREATE TABLE role (
@@ -22,11 +17,17 @@ CREATE TABLE role (
   FOREIGN KEY (department_id) REFERENCES department (id) ON DELETE CASCADE
 );
 
-CREATE TABLE department (
+CREATE TABLE employee (
   id int AUTO_INCREMENT,
-  name varchar(30) NOT NULL,
-  PRIMARY KEY(id)
+  first_name varchar(30) NOT NULL,
+  last_name varchar(30) NOT NULL,
+  role_id int,
+  manager_id int,
+  PRIMARY KEY(id),
+  FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE,
+  FOREIGN KEY (manager_id) REFERENCES employee (id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE employee_info (
 employee_id int,
@@ -40,26 +41,17 @@ foreign key (employee_id) REFERENCES employee (id) ON DELETE CASCADE,
 PRIMARY KEY(employee_id)
 );
 
+SELECT * FROM role;
 
+INSERT INTO department (name) values ('Law Department');
+INSERT INTO role (title, salary, department_id) values ('Lawyer', '100000', 1);
+INSERT INTO employee (first_name, last_name, role_id) values ('Amy', 'Paschke', 1);
 
 -- id, firstname, lastname, title, department, salary, manager--
-SELECT id, first_name, last_name, manager_id 
+SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.name 
 FROM employee
-JOIN employee_info ON employee_info.employee_id = employee.id
-JOIN employee_info ON employee_info.first_name = employee.first_name
-JOIN employee_info ON employee_info.last_name = employee.last_name
-JOIN employee_info ON employee_info.manager = employee.manager_id;
-
-SELECT title, salary
-FROM role
-INNER JOIN employee_info ON role.title = employee_info.title
-INNER JOIN employee_info ON role.salary = employee_info.salary;
-
-SELECT department.name
-FROM department
-INNER JOIN employee_info ON employee_info.department_name = department.name;
-
-
+LEFT JOIN role ON employee.role_id = role.id
+LEFT JOIN department ON role.department_id = department.id;
 
 
 
