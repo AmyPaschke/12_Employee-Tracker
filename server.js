@@ -12,18 +12,13 @@ let connection = mysql.createConnection({
   password: "ilovejosh3",
   database: "employee_tracker_db",
 });
+
 connection.connect(function (err) {
   if (err) throw err;
   console.log("connected at " + connection.threadId + "\n");
   runSearch();
 });
-function querying() {
-  connection.query("SELECT * FROM employee", function (err, results) {
-    if (err) throw err;
-    console.log("results: " + results);
-    connection.end();
-  });
-}
+
 function runSearch() {
   inquirer
     .prompt({
@@ -58,6 +53,8 @@ function runSearch() {
       }
     });
 }
+
+//function displaying all employees
 function allEmployees() {
   let query =
     "SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id;";
@@ -67,19 +64,19 @@ function allEmployees() {
     runSearch();
   });
 }
+
+//left joining departments table with both tables
 function allDepartments() {
-  //left joining departments table with both tables
   let query = "SELECT * FROM department";
   connection.query(query, function (err, res) {
     if (err) throw err;
-    for (let i = 0; i < res.length; i++) {
-      console.table([res[i]]);
-    }
+    console.table(res);
     runSearch();
   });
 }
+
+//left joining roles table with employee table
 function allRoles() {
-  //left joining roles table with employee table
   let query = "SELECT * FROM role";
   connection.query(query, function (err, res) {
     if (err) throw err;
@@ -89,44 +86,53 @@ function allRoles() {
     runSearch();
   });
 }
-async function addEmployees() {
-  const roles = await this.connection.query("SELECT id, title FROM role");
-  let finalRoles = roles.map((item) => {
-    return item.name;
-  });
-  inquirer
-    .prompt([
-      {
-        name: "firstName",
-        type: "input",
-        message: "What is the employees first name?",
-      },
-      {
-        name: "lastName",
-        type: "input",
-        message: "What is the employees last name?",
-      },
-      {
-        name: "role",
-        type: "list",
-        message: "What is the employees role?",
-        choices: finalRoles,
-      },
-    ])
-    .then((answer) => {
-      console.log(answer);
-      connection.query(
-        "INSERT INTO employee SET ?",
+
+//function to add employees
+//
+function addEmployees() {
+  let roles;
+  let query = "SELECT id, title FROM role";
+  connection.query(query, async function (err, res) {
+    if (err) throw err;
+    roles = await res.map((row) => row.title);
+
+    // let finalRoles = roles.map((item) => {
+    //   return item.name;
+    // });
+    console.log(roles);
+    inquirer
+      .prompt([
         {
-          first_name: answer.firstName,
-          last_name: answer.lastName,
-          role_id: id,
+          name: "firstName",
+          type: "input",
+          message: "What is the employees first name?",
         },
-        function (err) {
-          if (err) throw err;
-          console.log("Congratulations on your new job!");
-          runSearch();
-        }
-      );
-    });
+        {
+          name: "lastName",
+          type: "input",
+          message: "What is the employees last name?",
+        },
+        {
+          name: "role",
+          type: "list",
+          message: "What is the employees role?",
+          choices: roles,
+        },
+      ])
+      .then((answer) => {
+        console.log(answer);
+        connection.query(
+          "INSERT INTO employee SET ?",
+          {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: id,
+          },
+          function (err) {
+            if (err) throw err;
+            runSearch();
+          }
+        );
+      });
+  });
 }

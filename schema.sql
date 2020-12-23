@@ -28,19 +28,6 @@ CREATE TABLE employee (
   FOREIGN KEY (manager_id) REFERENCES employee (id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE employee_info (
-employee_id int,
-first_name varchar(30) NOT NULL,
-last_name varchar(30) NOT NULL,
-title varchar(30) NOT NULL,
-department_name varchar(30) NOT NULL,
-salary decimal NOT NULL,
-manager varchar(30),
-foreign key (employee_id) REFERENCES employee (id) ON DELETE CASCADE,
-PRIMARY KEY(employee_id)
-);
-
 SELECT * FROM role;
 
 INSERT INTO department (name) values ('Law Department');
@@ -51,6 +38,12 @@ INSERT INTO employee (first_name, last_name, role_id) values ('Amy', 'Paschke', 
 SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.name 
 FROM employee
 LEFT JOIN role ON employee.role_id = role.id
+LEFT JOIN department ON role.department_id = department.id;
+
+-- id, title, salary, department_id, employee first name, employee last name
+SELECT role.id, role.title, role.salary, employee.first_name, employee.last_name, department.name 
+FROM role
+LEFT JOIN employee ON role.id = employee.role_id
 LEFT JOIN department ON role.department_id = department.id;
 
 
