@@ -14,7 +14,11 @@ Screenshot image of the application in progress:
 
 Here is an interior image of one of the JavaScript files:
 
+![image](https://user-images.githubusercontent.com/70075341/103175273-59f73200-482e-11eb-97bc-54f6e7f7e9c8.JPG)
+
 Here is a shot of the mySQL data base:
+
+![image](https://user-images.githubusercontent.com/70075341/103175275-5a8fc880-482e-11eb-957f-98cab2c49824.JPG)
 
 ## Features
 
