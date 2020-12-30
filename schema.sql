@@ -31,8 +31,23 @@ CREATE TABLE employee (
 SELECT * FROM role;
 
 INSERT INTO department (name) values ('Law Department');
+INSERT INTO department (name) values ('Sales');
+INSERT INTO department (name) values ('Engineering');
+INSERT INTO department (name) values ('Finance');
+
 INSERT INTO role (title, salary, department_id) values ('Lawyer', '100000', 1);
-INSERT INTO employee (first_name, last_name, role_id) values ('Amy', 'Paschke', 1);
+INSERT INTO role (title, salary, department_id) values ('Sales Lead', '80000', 2);
+INSERT INTO role (title, salary, department_id) values ('Sales Intern', '30000', 2);
+INSERT INTO role (title, salary, department_id) values ('Lead Engineer', '100000', 3);
+INSERT INTO role (title, salary, department_id) values ('Software Engineer', '100000', 3);
+INSERT INTO role (title, salary, department_id) values ('Accountant', '75000', 4);
+
+INSERT INTO employee (first_name, last_name, role_id) values ('Amy', 'Smith', 1);
+INSERT INTO employee (first_name, last_name, role_id) values ('Ashley', 'Johnson', 2);
+INSERT INTO employee (first_name, last_name, role_id) values ('Matt', 'Mercer', 3);
+INSERT INTO employee (first_name, last_name, role_id) values ('Laura', 'Bailey', 4);
+INSERT INTO employee (first_name, last_name, role_id) values ('Liam', 'OBrien', 5);
+INSERT INTO employee (first_name, last_name, role_id) values ('Sam', 'Regal', 6);
 
 -- id, firstname, lastname, title, department, salary, manager--
 SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.name 
