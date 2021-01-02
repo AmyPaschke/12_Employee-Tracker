@@ -141,7 +141,7 @@ function addEmployees() {
   });
 }
 
-//function to add employees
+//function to add roles
 function addRoles() {
   let department;
   let query = "SELECT id, name FROM department";
@@ -185,4 +185,28 @@ function addRoles() {
         );
       });
   });
+}
+
+//function to add departments
+function addDepartments() {
+  inquirer
+    .prompt([
+      {
+        name: "department",
+        type: "input",
+        message: "What is the name of the department?",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          name: answer.department,
+        },
+        function (err) {
+          if (err) throw err;
+          runSearch();
+        }
+      );
+    });
 }
