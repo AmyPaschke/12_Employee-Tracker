@@ -2,6 +2,8 @@
 
 This project utilizes mySQL as a data base to hold employee info and allow users to view/add employees as needed.
 
+View the video walk through [here](https://youtu.be/sPojLpUZ8QA)
+
 ## Motivation
 
 My motivation for this project was to successfully utilize a mySQL data base and to be able to store/view data.
@@ -9,6 +11,8 @@ My motivation for this project was to successfully utilize a mySQL data base and
 ## Screenshots
 
 Screenshot image of the application in progress:
+
+![image](https://user-images.githubusercontent.com/70075341/103461883-324d1180-4ce7-11eb-94df-1ee9ced39ce7.JPG)
 
 ## Code Example
 

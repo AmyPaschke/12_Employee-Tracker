@@ -102,8 +102,6 @@ function addEmployees() {
   connection.query(query, async function (err, res) {
     if (err) throw err;
     roles = await res.map(({ id, title }) => ({ name: title, value: id }));
-
-    console.log(roles);
     inquirer
       .prompt([
         {
@@ -148,8 +146,6 @@ function addRoles() {
   connection.query(query, async function (err, res) {
     if (err) throw err;
     department = await res.map(({ id, name }) => ({ name: name, value: id }));
-
-    console.log(department);
     inquirer
       .prompt([
         {
