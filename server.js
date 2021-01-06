@@ -9,7 +9,7 @@ let connection = mysql.createConnection({
   // Your username
   user: "root",
   // Your password
-  password: "ilovejosh3",
+  password: "",
   database: "employee_tracker_db",
 });
 
