@@ -6,7 +6,7 @@ View the video walk through [here](https://youtu.be/sPojLpUZ8QA)
 
 ## Motivation
 
-My motivation for this project was to successfully utilize a mySQL data base and to be able to store/view data.
+My motivation for this project was to successfully utilize a mySQL data base and for users to be able to store/view data.
 
 ## Screenshots
 
